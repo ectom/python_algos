@@ -39,8 +39,7 @@ def insert_at():
 def pop_front():
     parser = reqparse.RequestParser()
     parser.add_argument('list', action='append', required='true')
-    args = parser.parse_args()
-    lst = ast.literal_eval(args['list'][0])
+    lst = ast.literal_eval(parser.parse_args()['list'][0])
     lst = lst[1:]
     return {'list': lst}, 200
 
@@ -59,8 +58,7 @@ def remove_at():
 def swap_pairs():
     parser = reqparse.RequestParser()
     parser.add_argument('list', action='append', required='true')
-    args = parser.parse_args()
-    lst = ast.literal_eval(args['list'][0])
+    lst = ast.literal_eval(parser.parse_args()['list'][0])
     if len(lst) % 2 == 0:
         even = len(lst)
     else:
@@ -78,8 +76,7 @@ def swap_pairs():
 def remove_duplicates():
     parser = reqparse.RequestParser()
     parser.add_argument('list', action='append', required='true')
-    args = parser.parse_args()
-    lst = ast.literal_eval(args['list'][0])
+    lst = ast.literal_eval(parser.parse_args()['list'][0])
     temp = lst[0]
     i = 1
     while i < len(lst):
@@ -88,6 +85,33 @@ def remove_duplicates():
         else:
             temp = lst[i]
             i = i + 1
+    return {'list': lst}, 200
+
+
+@app.route('/minToFront', methods=['GET'])
+def min_to_front():
+    parser = reqparse.RequestParser()
+    parser.add_argument('list', action='append', required='true')
+    lst = ast.literal_eval(parser.parse_args()['list'][0])
+    min = lst[0]
+    mindex = 0
+    for idx, i in enumerate(lst):
+        if min > i:
+            min = i
+            mindex = idx
+    lst = [min] + lst[:mindex] + lst[mindex + 1:]
+    return {'list': lst}, 200
+
+
+@app.route('/reverseArray', methods=['GET'])
+def reverse_array():
+    parser = reqparse.RequestParser()
+    parser.add_argument('list', action='append', required='true')
+    lst = ast.literal_eval(parser.parse_args()['list'][0])
+    for i in range(len(lst)//2):
+        temp = lst[i]
+        lst[i] = lst[-(i+1)]
+        lst[-(i+1)] = temp
     return {'list': lst}, 200
 
 
