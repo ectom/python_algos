@@ -103,6 +103,30 @@ class SLinkedList:
         front.next = self.head
         self.head = front
 
+    def max_to_back(self):
+        head = self.head
+        prev = None
+        after = None
+        biggest = head
+        while head.next:
+            if head.next.val > biggest.val:
+                prev = head
+                biggest = head.next
+                if head.next.next:
+                    after = head.next.next
+                else:
+                    after = None
+            head = head.next
+        if prev is None:
+            self.head = self.head.next
+            head.next = biggest
+            biggest.next = None
+        elif prev and after:
+            head.next = biggest
+            biggest.next = None
+            prev.next = after
+
+
 
 # ---- Create Linked list ----
 node_list = SLinkedList()
@@ -139,3 +163,4 @@ n9.next = n10
 # node_list.remove_last()
 # node_list.add_last(11)
 # node_list.min_to_front()
+# node_list.max_to_back()
